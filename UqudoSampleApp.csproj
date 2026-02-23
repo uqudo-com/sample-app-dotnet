@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-ios17.2</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>true</ImplicitUsings>
+    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+    <ApplicationId>com.uqudo.sampleapp</ApplicationId>
+    <RuntimeIdentifiers>iossimulator-arm64;ios-arm64</RuntimeIdentifiers>
+    <_ExportSymbolsExplicitly>false</_ExportSymbolsExplicitly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CreatePackage>false</CreatePackage>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchUseLlvm>false</MtouchUseLlvm>
+    <MtouchFloat32>true</MtouchFloat32>
+    <DeviceSpecificBuild>false</DeviceSpecificBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <CreatePackage>false</CreatePackage>
+    <DebugSymbols>true</DebugSymbols>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchLink>Full</MtouchLink>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="UqudoSDK.DotNet.iOS" Version="3.7.0" />
+    <PackageReference Include="UqudoSDK.DotNet.OpenSSL" Version="3.3.3001" />
+    <PackageReference Include="UqudoSDK.DotNet.ShieldPtr" Version="1.5.55" />
+  </ItemGroup>
+</Project>

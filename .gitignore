@@ -1,0 +1,26 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.cache
+*.log
+
+## NuGet
+*.nupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
+## IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+## iOS
+*.ipa
+*.dSYM.zip
+*.dSYM
