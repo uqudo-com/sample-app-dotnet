@@ -60,6 +60,10 @@ public class AppDelegate : UIApplicationDelegate
         return true;
     }
 
+    // Keep strong references to prevent GC of weak ObjC delegates
+    private EnrollmentDelegate? _enrollmentDelegate;
+    private BuilderControllerDelegate? _builderDelegate;
+
     private void OnEnrollButtonTapped(object? sender, EventArgs e)
     {
         Debug.WriteLine("Starting Uqudo Enrollment...");
@@ -80,23 +84,29 @@ public class AppDelegate : UIApplicationDelegate
             var facialConfig = new UQFacialRecognitionConfig();
             facialConfig.MinimumMatchLevel = 3;
 
+            // Keep delegates alive (ObjC properties are weak)
+            _enrollmentDelegate = new EnrollmentDelegate();
+            _builderDelegate = new BuilderControllerDelegate();
+
             // Create enrollment builder
             var enrollmentBuilder = new UQEnrollmentBuilder();
             enrollmentBuilder.AuthorizationToken = accessToken;
             enrollmentBuilder.AppViewController = _rootViewController!;
             enrollmentBuilder.FacialRecognitionConfig = facialConfig;
-            enrollmentBuilder.Delegate = new EnrollmentDelegate();
+            enrollmentBuilder.Delegate = _enrollmentDelegate;
 
             // Add document to scan
             enrollmentBuilder.Add(documentConfig);
 
             // Create the builder controller and perform enrollment
-            var builderController = UQBuilderController.DefaultBuilder();
-            builderController.Delegate = new BuilderControllerDelegate();
+            // Note: DefaultBuilder() returns null, use constructor instead
+            var builderController = new UQBuilderController();
+            builderController.AppViewController = _rootViewController!;
+            builderController.Delegate = _builderDelegate;
             builderController.SetEnrollment(enrollmentBuilder);
 
             // Start the enrollment flow
-            enrollmentBuilder.Start();
+            builderController.PerformEnrollment();
         }
         catch (Exception ex)
         {
